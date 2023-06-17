@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "983734552635",
+    "project_id": "leaflet-android",
+    "storage_bucket": "leaflet-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983734552635:android:c86597638f38a21d38b41e",
+        "android_client_info": {
+          "package_name": "com.example.leaflet_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983734552635-n5ec4cr5frnp2kikbsde4ig7h3133frp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH_qzNXabk5AGEeyr9HQuJ4lprnrN524Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983734552635-n5ec4cr5frnp2kikbsde4ig7h3133frp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
