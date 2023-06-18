@@ -34,7 +34,5 @@ public class RegisterAPI {
         call.enqueue(callback);
     }
 
-
-
 }
 

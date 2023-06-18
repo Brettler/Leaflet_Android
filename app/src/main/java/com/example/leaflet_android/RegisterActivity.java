@@ -98,10 +98,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         // Handle Register button click event
         binding.registerButton.setOnClickListener(v -> {
             String username = binding.editTextTextPersonName.getText().toString().trim();
@@ -119,10 +115,8 @@ public class RegisterActivity extends AppCompatActivity {
                         displayName,
                         selectedImageUri != null ? getImageBase64(selectedImageUri) : getDefaultImageBase64("default_user_pic")
                 );
-
                 // call the registerUser method with the created user
                 registerViewModel.registerUser(user);
-
             }
         });
     }
