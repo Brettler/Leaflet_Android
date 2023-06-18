@@ -3,33 +3,46 @@ package com.example.leaflet_android.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.leaflet_android.R;
+
 @Entity
 public class Contact {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String displayname;
-    private String profilePic;
+    private String displayName;
+    private int profilePic;
     private String lastMessage;
 
-
-    public Contact(String content) {
-        this.lastMessage = content;
+    public Contact(String displayName, int profilePic, String lastMessage) {
+        this.displayName = displayName;
+        this.profilePic = profilePic;
+        this.lastMessage = lastMessage;
     }
+
+//    public Contact(int profilePic) {
+//        this.profilePic = profilePic;
+//    }
+
+
+    // Setters
+    public void setId(int id) {this.id = id;}
+
+    public void setDisplayName(String displayName) {this.displayName = displayName;}
+
+    public void setProfilePic(int profilePic) {this.profilePic = profilePic;}
+
+    public void setLastMessage(String lastMessage) {this.lastMessage = lastMessage;}
+
+    //Getters
+    public String getLastMessage() {
+        return lastMessage;
+    }
+    public String getDisplayName() {
+        return displayName;
+    }
+    public int getProfilePic() {return profilePic;}
 
     public int getId() {
         return id;
     }
-
-    public String getContent() {
-        return lastMessage;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setContent(String content) {
-        this.lastMessage = content;
-    }
-
 }
