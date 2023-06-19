@@ -1,34 +1,19 @@
 package com.example.leaflet_android;
 
-import static android.service.controls.ControlsProviderService.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.leaflet_android.adapters.ContactsListAdapter;
-import com.example.leaflet_android.api.ContactAPI;
 import com.example.leaflet_android.databinding.ActivityContactsBinding;
-import com.example.leaflet_android.databinding.ActivityRegisterBinding;
-import com.example.leaflet_android.entities.Contact;
 import com.example.leaflet_android.viewmodels.ContactsViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
     private ActivityContactsBinding binding;
@@ -80,7 +65,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                //Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                 return;
             }
 

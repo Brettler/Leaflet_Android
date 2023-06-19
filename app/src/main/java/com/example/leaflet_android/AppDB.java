@@ -10,7 +10,7 @@ import com.example.leaflet_android.entities.Contact;
 import com.example.leaflet_android.login.UserInfo;
 import com.example.leaflet_android.login.UserInfoDao;
 
-@Database(entities = {Contact.class, UserInfo.class}, version = 2)
+@Database(entities = {Contact.class, UserInfo.class}, version = 3)
 public abstract class AppDB extends RoomDatabase {
     public abstract ContactDao contactDao();
     public abstract UserInfoDao userInfoDao();
