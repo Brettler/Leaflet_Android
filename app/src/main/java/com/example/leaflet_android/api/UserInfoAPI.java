@@ -37,16 +37,18 @@ public class UserInfoAPI {
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
                 if (response.isSuccessful()) {
                     UserInfo userInfo = response.body();
-                    Log.d("UserInfoAPI", "UserInfo: " + userInfo.toString()); // This line prints the UserInfo object
                     userInfoData.postValue(userInfo);
+                    Log.d("UserInfoAPI", "Response: " + userInfo); // Log the response
                 } else {
                     userInfoData.postValue(null);
+                    Log.e("UserInfoAPI", "Unsuccessful response: " + response.code()); // Log the error code
                 }
             }
 
             @Override
             public void onFailure(Call<UserInfo> call, Throwable t) {
                 userInfoData.postValue(null);
+                Log.e("UserInfoAPI", "Request failed: " + t.getMessage()); // Log the failure reason
             }
         });
     }
