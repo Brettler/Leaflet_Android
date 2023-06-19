@@ -1,5 +1,7 @@
 package com.example.leaflet_android.api;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.leaflet_android.LeafletApp;
@@ -44,6 +46,7 @@ public class LoginAPI {
                         } else {
                             tokenData.postValue("error");
                         }
+                        Log.d("LoginAPI", "Response: " + token); // Log the response
                     } catch (IOException e) {
                         e.printStackTrace();
                         tokenData.postValue("error");
@@ -51,6 +54,7 @@ public class LoginAPI {
                 } else {
                     // When the response isn't successful, post an error.
                     tokenData.postValue("error");
+                    Log.e("LoginAPI", "Unsuccessful response: " + response.code()); // Log the error code
                 }
             }
 

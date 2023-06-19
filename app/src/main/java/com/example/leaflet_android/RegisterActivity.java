@@ -157,7 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
 
-            return Base64.encodeToString(byteArray, Base64.DEFAULT);
+            return "data:image/jpeg;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -195,14 +195,12 @@ public class RegisterActivity extends AppCompatActivity {
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
 
-            return Base64.encodeToString(byteArray, Base64.DEFAULT);
+            return "data:image/jpeg;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
-
 
     // Handle sending the server user register information.
 
