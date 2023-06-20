@@ -8,7 +8,7 @@ import com.example.leaflet_android.AppDB;
 import com.example.leaflet_android.LeafletApp;
 import com.example.leaflet_android.api.UserInfoAPI;
 import com.example.leaflet_android.login.UserInfo;
-import com.example.leaflet_android.login.UserInfoDao;
+import com.example.leaflet_android.dao.UserInfoDao;
 
 public class UserInfoViewModel extends ViewModel {
 
@@ -27,9 +27,10 @@ public class UserInfoViewModel extends ViewModel {
         return userInfoData;
     }
 
-    public void fetchUserInfo(String token, String id) {
-        userInfoAPI.fetchUserInfo(token, id, userInfoData);
+    public void fetchUserInfo(String token, String firebaseToken, String id) {
+        userInfoAPI.fetchUserInfo(token, firebaseToken, id, userInfoData);
     }
+
 
     public void storeUserInfo(UserInfo userInfo) {
         new Thread(() -> userInfoDao.insert(userInfo)).start();
