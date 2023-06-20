@@ -20,6 +20,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:ems="10"
+            android:minHeight="50dp"
             android:hint="Type contact username here" />
 
         <Button

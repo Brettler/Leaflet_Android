@@ -12,6 +12,7 @@ import com.example.leaflet_android.databinding.ActivityMainBinding;
 import com.example.leaflet_android.login.UserLogin;
 import com.example.leaflet_android.viewmodels.LoginViewModel;
 import com.example.leaflet_android.viewmodels.UserInfoViewModel;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -33,21 +34,31 @@ public class MainActivity extends AppCompatActivity {
             if(token != null) {
                 if(!token.equals("error")) {
                     // Save the token and navigate to the next Activity
-                    SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+                    SharedPreferences sharedPreferences = getSharedPreferences("sharedLocal", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", token);
                     editor.apply();
 
-                    // Fetch user info now that we have a valid token
-                    // Ensure that we have a valid username
-                    String username = binding.tvLoginUsername.getEditText().getText().toString();
-                    if(!username.isEmpty()) {
-                        // Make the request from the server to get the information about the user
-                        // that just logged in.
-                        userInfoViewModel.fetchUserInfo(token, username);
-                    } else {
-                        Toast.makeText(MainActivity.this, "Invalid username", Toast.LENGTH_SHORT).show();
-                    }
+
+                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+                        if (!task.isSuccessful()) {
+                            // Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token for each user that installs and uses the app.
+                        String firebaseToken = task.getResult();
+
+                        // Fetch user info now that we have a valid token
+                        String username = binding.tvLoginUsername.getEditText().getText().toString();
+                        if(!username.isEmpty()) {
+                            // Make the request from the server to get the information about the user
+                            // that just logged in.
+                            userInfoViewModel.fetchUserInfo(token, firebaseToken, username);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Invalid username", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     Toast.makeText(MainActivity.this, "Invalid username and/or password", Toast.LENGTH_SHORT).show();
                 }

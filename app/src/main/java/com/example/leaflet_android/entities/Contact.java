@@ -3,8 +3,6 @@ package com.example.leaflet_android.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.leaflet_android.R;
-
 @Entity
 public class Contact {
     @PrimaryKey(autoGenerate = true)
@@ -18,11 +16,6 @@ public class Contact {
         this.profilePic = profilePic;
         this.lastMessage = lastMessage;
     }
-
-//    public Contact(int profilePic) {
-//        this.profilePic = profilePic;
-//    }
-
 
     // Setters
     public void setId(int id) {this.id = id;}
