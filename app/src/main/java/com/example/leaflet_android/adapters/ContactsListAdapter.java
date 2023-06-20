@@ -72,5 +72,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
     // Getter - return the contact list.
 
-    public List<Contact> getContacts() {return contacts;}
+    public List<Contact> getContacts() {
+        return contacts;
+    }
 }

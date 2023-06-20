@@ -30,8 +30,8 @@ public class UserInfoAPI {
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
-    public void fetchUserInfo(String token, String id, final MutableLiveData<UserInfo> userInfoData) {
-        Call<UserInfo> call = webServiceAPI.getUserInfo("Bearer " + token, id);
+    public void fetchUserInfo(String token, String firebaseToken, String id, final MutableLiveData<UserInfo> userInfoData) {
+        Call<UserInfo> call = webServiceAPI.getUserInfo("Bearer " + token, firebaseToken, id);
         call.enqueue(new Callback<UserInfo>() {
             @Override
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {

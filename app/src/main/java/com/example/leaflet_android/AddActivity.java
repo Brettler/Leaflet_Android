@@ -1,28 +1,39 @@
 package com.example.leaflet_android;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.leaflet_android.databinding.ActivityAddBinding;
-import com.example.leaflet_android.databinding.ActivityContactsBinding;
+import com.example.leaflet_android.viewmodels.ContactsViewModel;
 
 public class AddActivity extends AppCompatActivity {
     private ActivityAddBinding binding;
+    private ContactsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         Button btnSave = binding.btnSave;
+        viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
         btnSave.setOnClickListener(view -> {
-            //Calling the data base to search for the friend.
+            String friendUsername = binding.etContactUsername.getText().toString();
+            // Retrieve token from shared preferences
+            SharedPreferences sharedPreferences = getSharedPreferences("sharedLocal", MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
+            if (!token.equals("")) {
+                // Request from the server adding a friend.
+                viewModel.add(friendUsername, token);
+            } else {
+                // Handle error - token not found
+            }
+            finish();
         });
 
-        // This line will make us to go back to the last window we visit. meaning back to the contact list.
-        //finish();
     }
 }
