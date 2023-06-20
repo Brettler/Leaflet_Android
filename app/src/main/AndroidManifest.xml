@@ -22,7 +22,6 @@
         <activity
             android:name=".AddActivity"
             android:exported="false" />
-
         <service
             android:name=".NotificationService"
             android:enabled="true"
