@@ -1,41 +1,55 @@
 package com.example.leaflet_android.entities;
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Contact {
     @PrimaryKey(autoGenerate = true)
-    private int id;
-    private String displayName;
-    private int profilePic;
-    private String lastMessage;
+    private int localID;
+    private String id;
+    @Embedded(prefix = "user_")
+    private UserContact user;
+    @Embedded(prefix = "last_message_")
+    private LastMessage lastMessage;
 
-    public Contact(String displayName, int profilePic, String lastMessage) {
-        this.displayName = displayName;
-        this.profilePic = profilePic;
+    public Contact(String id, UserContact user, LastMessage lastMessage) {
+        this.id = id;
+        this.user = user;
+        this.lastMessage = lastMessage;
+    }
+    // Setters
+    public void setLocalID(int localID) {
+        this.localID = localID;
+    }
+
+    public void setID(String id) {
+        this.id = id;
+    }
+
+    public void setUser(UserContact user) {
+        this.user = user;
+    }
+
+    public void setLastMessage(LastMessage lastMessage) {
         this.lastMessage = lastMessage;
     }
 
-    // Setters
-    public void setId(int id) {this.id = id;}
-
-    public void setDisplayName(String displayName) {this.displayName = displayName;}
-
-    public void setProfilePic(int profilePic) {this.profilePic = profilePic;}
-
-    public void setLastMessage(String lastMessage) {this.lastMessage = lastMessage;}
-
-    //Getters
-    public String getLastMessage() {
-        return lastMessage;
+    // Getters
+    public int getLocalID() {
+        return localID;
     }
-    public String getDisplayName() {
-        return displayName;
-    }
-    public int getProfilePic() {return profilePic;}
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public UserContact getUser() {
+        return user;
+    }
+
+    public LastMessage getLastMessage() {
+        return lastMessage;
     }
 }
