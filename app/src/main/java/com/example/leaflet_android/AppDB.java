@@ -11,7 +11,7 @@ import com.example.leaflet_android.entities.Contact;
 import com.example.leaflet_android.login.UserInfo;
 import com.example.leaflet_android.dao.UserInfoDao;
 
-@Database(entities = {Contact.class, UserInfo.class}, version = 5)
+@Database(entities = {Contact.class, UserInfo.class}, version = 12)
 public abstract class AppDB extends RoomDatabase {
     public abstract ContactDao contactDao();
     public abstract UserInfoDao userInfoDao();
@@ -24,6 +24,7 @@ public abstract class AppDB extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDB.class, "LeafletDB")
+                            .fallbackToDestructiveMigration()  // Added this line
                             .build();
                 }
             }

@@ -1,0 +1,41 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/Network_header">
+
+        <EditTextPreference
+            app:key="signature"
+            app:title= "Server IP Address"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/BaseUrl"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Themes">
+        <ListPreference
+            app:key="theme_preference"
+            app:title="Choose theme"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:defaultValue="light"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title="Software Updates">
+        <SwitchPreferenceCompat
+            app:key="updates"
+            app:title="@string/updates_title"
+            app:summaryOn="@string/updates_summary_on"
+            app:summaryOff="@string/updates_summary_off" />
+
+        <ListPreference
+            app:key="network_preference"
+            app:title="@string/network_preference_title"
+            app:entries="@array/network_preference_entries"
+            app:entryValues="@array/network_preference_values"
+            app:defaultValue="wifi_only"
+            app:dependency="updates"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -42,13 +42,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:hint="Username">
+            android:textColorHint="@android:color/black"
+
+            android:hint="Username"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTextPersonName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_underline"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/black"
                 android:inputType="textPersonName"
                 android:minHeight="50dp"
                 android:textSize="16sp" />
@@ -61,6 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:textColorHint="@android:color/black"
+
             android:hint="Password">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -68,6 +75,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_underline"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/black"
                 android:inputType="textPassword"
                 android:minHeight="50dp"
                 android:textSize="16sp" />
@@ -80,6 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/black"
             android:hint="Verify Password">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -88,6 +99,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_underline"
                 android:inputType="textPassword"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/black"
                 android:minHeight="50dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -99,6 +112,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/black"
             android:hint="Display Name">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -108,6 +123,8 @@
                 android:background="@drawable/et_underline"
                 android:inputType="textPersonName"
                 android:minHeight="50dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/black"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,6 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
             android:text="Choose Profile Picture"
             android:textSize="16sp"
             app:backgroundTint="@android:color/holo_green_dark" />

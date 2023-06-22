@@ -4,17 +4,17 @@ package com.example.leaflet_android.repositories;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.leaflet_android.AppDB;
-import com.example.leaflet_android.dao.ContactDao;
 import com.example.leaflet_android.LeafletApp;
 import com.example.leaflet_android.api.ContactAPI;
+import com.example.leaflet_android.dao.ContactDao;
 import com.example.leaflet_android.entities.Contact;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class ContactsRepository {
@@ -33,11 +33,6 @@ public class ContactsRepository {
     class ContactListData extends MutableLiveData<List<Contact>> {
         public ContactListData() {
             super();
-
-            // Here we need to implement to retrive the contact list from the local data.
-            setValue(new LinkedList<>());
-
-
         }
 
         @Override
@@ -47,7 +42,7 @@ public class ContactsRepository {
             // First, load data from local database.
             new Thread(() -> {
                 List<Contact> contactsFromDB = dao.index();
-
+                Log.d("ContactListData", "Loaded contacts from database: " + contactsFromDB);
                 // Post the value so the UI can update.
                 postValue(contactsFromDB);
 
@@ -66,7 +61,24 @@ public class ContactsRepository {
         return contactListData;
     }
 
-    public void add (final String username, String token) {
+    public void addContact (final String username, String token) {
         contactAPI.requestAddContact(username, token);
     }
+
+    public LiveData<String> getErrorLiveData() {
+        return contactAPI.getErrorLiveData();
+    }
+
+
+//    public void addTestContact() {
+//        Contact testContact = new Contact("456546", "Test User", R.drawable.default_user_pic, "Hello, this is a test message");
+//
+//        new Thread(() -> {
+//            dao.insert(testContact);
+//            Log.d("addTestContact", "Inserted test contact into database: " + testContact);
+//            // Request an update of the contact list
+//            contactListData.onActive();
+//        }).start();
+//    }
+
 }

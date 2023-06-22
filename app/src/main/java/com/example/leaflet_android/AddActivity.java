@@ -3,6 +3,7 @@ package com.example.leaflet_android;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,12 +29,17 @@ public class AddActivity extends AppCompatActivity {
             String token = sharedPreferences.getString("token", "");
             if (!token.equals("")) {
                 // Request from the server adding a friend.
-                viewModel.add(friendUsername, token);
+                viewModel.addContact(friendUsername, token);
             } else {
                 // Handle error - token not found
             }
             finish();
         });
+
+        viewModel.getErrorLiveData().observe(this, errorMessage -> {
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        });
+
 
     }
 }
