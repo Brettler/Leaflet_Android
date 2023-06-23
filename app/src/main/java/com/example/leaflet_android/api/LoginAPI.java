@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.leaflet_android.LeafletApp;
 import com.example.leaflet_android.R;
 import com.example.leaflet_android.login.UserLogin;
+import com.example.leaflet_android.settings.AppSettings;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -22,17 +23,25 @@ public class LoginAPI {
     private Retrofit retrofit;
     private WebServiceAPI webServiceAPI;
 
+    private AppSettings appSettings;
+
     public LoginAPI() {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(LeafletApp.context.getString(R.string.BaseUrl))
+        appSettings = new AppSettings(LeafletApp.context);
+    }
+
+    private Retrofit createRetrofitInstance() {
+        return new Retrofit.Builder()
+                .baseUrl(appSettings.getServerIpAddress())
                 .callbackExecutor(Executors.newSingleThreadExecutor())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
+
     public void loginUser(UserLogin user, final MutableLiveData<String> tokenData) {
+        Retrofit retrofit = createRetrofitInstance();
+        WebServiceAPI webServiceAPI = retrofit.create(WebServiceAPI.class);
+
         Call<ResponseBody> call = webServiceAPI.userLogin(user);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

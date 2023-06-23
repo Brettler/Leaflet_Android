@@ -3,13 +3,21 @@ package com.example.leaflet_android;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.leaflet_android.databinding.ActivityMainBinding;
 import com.example.leaflet_android.login.UserLogin;
+import com.example.leaflet_android.settings.AppSettings;
 import com.example.leaflet_android.viewmodels.LoginViewModel;
 import com.example.leaflet_android.viewmodels.UserInfoViewModel;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -96,5 +104,39 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, RegisterActivity.class);
             startActivity(i);
         });
+
+
+        // Add click listener for the server settings button
+        binding.serverSettingsIP.setOnClickListener(v -> showServerIpDialog());
+        Animation animation = AnimationUtils.loadAnimation(LeafletApp.context, R.anim.scale_animiation);
+        binding.serverSettingsIP.startAnimation(animation);
+
+
     }
+    private void showServerIpDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.login_set_server_ip, null);
+
+        final EditText editTextServerIp = view.findViewById(R.id.edit_text_server_ip);
+
+        AppSettings appSettings = new AppSettings(MainActivity.this);
+        String currentIp = appSettings.getServerIpAddress();
+
+        editTextServerIp.setText(currentIp);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Change Server IP")
+                .setView(view)
+                .setPositiveButton("Change", (dialog1, which) -> {
+                    String newIp = String.valueOf(editTextServerIp.getText());
+                    appSettings.setServerIpAddress(newIp);
+                    // You may need to recreate your LoginAPI instance or somehow let it know that the IP address has changed
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        dialog.show();
+    }
+
+
 }

@@ -14,14 +14,16 @@
         android:layout_height="0dp"
         android:alpha="0.85"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/leafs_background"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/leafs_background" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="361dp"
         android:layout_height="272dp"
         android:alpha="0.85"
@@ -33,9 +35,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.151"
 
-        >
+        app:layout_constraintVertical_bias="0.151">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tvLoginUsername"
@@ -44,9 +45,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:textColorHint="@android:color/black"
+            android:hint="Username"
 
-            android:hint="Username">
+            android:textColorHint="@android:color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTextPersonName"
@@ -54,9 +55,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_underline"
                 android:inputType="textPersonName"
+                android:minHeight="50dp"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/black"
-                android:minHeight="50dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,18 +68,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:textColorHint="@android:color/black"
-            android:hint="Password">
+            android:hint="Password"
+            android:textColorHint="@android:color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_underline"
-                android:textColor="@android:color/black"
-                android:textColorHint="@color/black"
                 android:inputType="textPassword"
                 android:minHeight="50dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/black"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,4 +126,17 @@
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/serverSettingsIP"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_server_ip_settings"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        android:background="@drawable/round_corner" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
