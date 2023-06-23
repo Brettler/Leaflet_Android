@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.leaflet_android.LeafletApp;
 import com.example.leaflet_android.R;
 import com.example.leaflet_android.login.UserInfo;
+import com.example.leaflet_android.settings.AppSettings;
 
 import java.util.concurrent.Executors;
 
@@ -20,17 +21,23 @@ public class UserInfoAPI {
     private Retrofit retrofit;
     private WebServiceAPI webServiceAPI;
 
+    private AppSettings appSettings;
+
     public UserInfoAPI() {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(LeafletApp.context.getString(R.string.BaseUrl))
+        appSettings = new AppSettings(LeafletApp.context);
+    }
+
+    private Retrofit createRetrofitInstance() {
+        return new Retrofit.Builder()
+                .baseUrl(appSettings.getServerIpAddress())
                 .callbackExecutor(Executors.newSingleThreadExecutor())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
     public void fetchUserInfo(String token, String firebaseToken, String id, final MutableLiveData<UserInfo> userInfoData) {
+        Retrofit retrofit = createRetrofitInstance();
+        WebServiceAPI webServiceAPI = retrofit.create(WebServiceAPI.class);
         Call<UserInfo> call = webServiceAPI.getUserInfo("Bearer " + token, firebaseToken, id);
         call.enqueue(new Callback<UserInfo>() {
             @Override

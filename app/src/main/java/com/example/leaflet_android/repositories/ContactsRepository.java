@@ -3,11 +3,18 @@ package com.example.leaflet_android.repositories;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static com.example.leaflet_android.LeafletApp.context;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.leaflet_android.AppDB;
 import com.example.leaflet_android.LeafletApp;
@@ -23,11 +30,23 @@ public class ContactsRepository {
     private ContactAPI contactAPI;
 
     public ContactsRepository(){
-        AppDB db = AppDB.getDatabase(LeafletApp.context);
+        AppDB db = AppDB.getDatabase(context);
         dao = db.contactDao();
 
         contactListData = new ContactListData();
         contactAPI = new ContactAPI(contactListData, dao);
+
+        // If we
+        LocalBroadcastManager.getInstance(context).registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                refreshRetrofitInstance();
+            }
+        }, new IntentFilter("IP_ADDRESS_CHANGED"));
+    }
+
+    public void refreshRetrofitInstance() {
+        contactAPI.refreshRetrofitInstance();
     }
 
     class ContactListData extends MutableLiveData<List<Contact>> {
@@ -47,7 +66,7 @@ public class ContactsRepository {
                 postValue(contactsFromDB);
 
                 // After the local data is loaded, make the network request.
-                SharedPreferences sharedPreferences = LeafletApp.context.getSharedPreferences("sharedLocal", MODE_PRIVATE);
+                SharedPreferences sharedPreferences = context.getSharedPreferences("sharedLocal", MODE_PRIVATE);
                 String token = sharedPreferences.getString("token", "");
                 contactAPI.requestAllContacts(token, this);
             }).start();

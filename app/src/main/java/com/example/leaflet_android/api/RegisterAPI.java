@@ -8,6 +8,9 @@ import com.example.leaflet_android.LeafletApp;
 import com.example.leaflet_android.MainActivity;
 import com.example.leaflet_android.R;
 import com.example.leaflet_android.register.UserRegister;
+import com.example.leaflet_android.settings.AppSettings;
+
+import java.util.concurrent.Executors;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -20,16 +23,23 @@ public class RegisterAPI {
     private Retrofit retrofit;
     private WebServiceAPI webServiceAPI;
 
+    private AppSettings appSettings;
+
     public RegisterAPI() {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(LeafletApp.context.getString(R.string.BaseUrl))
+        appSettings = new AppSettings(LeafletApp.context);
+    }
+
+    private Retrofit createRetrofitInstance() {
+        return new Retrofit.Builder()
+                .baseUrl(appSettings.getServerIpAddress())
+                .callbackExecutor(Executors.newSingleThreadExecutor())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
     public void registerUser(UserRegister user, Callback<Void> callback) {
+        Retrofit retrofit = createRetrofitInstance();
+        WebServiceAPI webServiceAPI = retrofit.create(WebServiceAPI.class);
         Call<Void> call = webServiceAPI.createUser(user);
         call.enqueue(callback);
     }
