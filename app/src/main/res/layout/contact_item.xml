@@ -30,7 +30,6 @@
             android:id="@+id/tvDisplayName"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/purple_700"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"/>
         <TextView

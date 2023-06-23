@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
                             // Make the request from the server to get the information about the user
                             // that just logged in.
                             userInfoViewModel.fetchUserInfo(token, firebaseToken, username);
+                            // Save the username
+                            editor.putString("username", username);
+                            editor.apply();
                         } else {
                             Toast.makeText(MainActivity.this, "Invalid username", Toast.LENGTH_SHORT).show();
                         }

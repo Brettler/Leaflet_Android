@@ -1,5 +1,6 @@
 package com.example.leaflet_android.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -13,6 +14,6 @@ public interface UserInfoDao {
     void insert(UserInfo userInfo);
 
     @Query("SELECT * FROM userinfo WHERE username = :username")
-    UserInfo getUserInfo(String username);
+    LiveData<UserInfo> getUserInfo(String username);
 }
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.leaflet_android.R;
 import com.example.leaflet_android.entities.Contact;
 
@@ -48,10 +49,18 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     public void onBindViewHolder(ContactViewHolder holder, int position) {
         if (contacts != null) {
             final Contact current = contacts.get(position);
-            holder.tvLastMessage.setText(current.getLastMessage());
-            holder.tvDisplayName.setText(current.getDisplayName());
-            holder.ivProfilePic.setImageResource(current.getProfilePic());
+            if (current.getLastMessage() != null) {  // Added null check here
+                holder.tvLastMessage.setText(current.getLastMessage().getContent());
+            } else {
+                holder.tvLastMessage.setText(""); // Or any other placeholder text
+            }            holder.tvDisplayName.setText(current.getUser().getDisplayName());
+
+            // Use Glide to load the image
+            Glide.with(holder.ivProfilePic.getContext())
+                    .load(current.getUser().getProfilePic())
+                    .into(holder.ivProfilePic);
         }
+
     }
 
     // Setter - set the information of each contact.

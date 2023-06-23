@@ -1,8 +1,11 @@
 package com.example.leaflet_android.api;
+
+import com.example.leaflet_android.chat.ContactUsername;
+import com.example.leaflet_android.entities.Contact;
 import com.example.leaflet_android.login.UserInfo;
 import com.example.leaflet_android.login.UserLogin;
 import com.example.leaflet_android.register.UserRegister;
-import com.example.leaflet_android.entities.Contact;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -29,7 +32,7 @@ public interface WebServiceAPI {
 
     // Add friend
     @POST("/api/Chats")
-    Call<Contact> createContact(@Header("Authorization") String token, @Body String username);
+    Call<Contact> createContact(@Header("Authorization") String token, @Body ContactUsername username);
 
     // Retrive all the contacts (chats list)
     @GET("/api/Chats")
