@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Leaflet_Android</string>
+    <string name="BaseUrl">http://192.168.0.106:4656/api/</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="Network_header">Network</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Current Theme</string>
+
+    <!-- Sync Preferences -->
+    <string name="updates_title">Automatic updates</string>
+    <string name="updates_summary_on">Updates will be downloaded automatically</string>
+    <string name="updates_summary_off">Updates must be downloaded manually</string>
+    <string name="network_preference_title">Update options</string>
     <string name="type_a_message">Type a message</string>
+
+
 </resources>

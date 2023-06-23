@@ -1,13 +1,16 @@
 package com.example.leaflet_android.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.leaflet_android.R;
+import com.example.leaflet_android.repositories.ContactsRepository;
 
 public class SettingsPreference extends PreferenceFragmentCompat {
 
@@ -29,6 +32,9 @@ public class SettingsPreference extends PreferenceFragmentCompat {
                 return true;
             });
         }
+        // In your SettingsPreference class
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent("IP_ADDRESS_CHANGED"));
+
 
         // Retrieve and set the theme preference
         ListPreference themePreference = findPreference("theme_preference");

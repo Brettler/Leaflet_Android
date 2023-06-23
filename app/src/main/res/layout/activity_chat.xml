@@ -62,10 +62,12 @@
         android:id="@+id/viewSupport"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:background="@color/colorPrimary"
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/chatHeaderBack"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -73,6 +75,7 @@
         android:overScrollMode="never"
         android:padding="20dp"
         android:visibility="gone"
+        app:stackFromEnd="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/vChatBackground"
         app:layout_constraintTop_toBottomOf="@id/viewSupport"
