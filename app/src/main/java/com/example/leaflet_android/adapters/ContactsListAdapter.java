@@ -2,6 +2,7 @@ package com.example.leaflet_android.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.leaflet_android.ChatActivity;
 import com.example.leaflet_android.R;
 import com.example.leaflet_android.entities.Contact;
 
@@ -28,6 +30,18 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             ivProfilePic = itemView.findViewById(R.id.ivProfilePic);
             tvDisplayName = itemView.findViewById(R.id.tvDisplayName);
             tvLastMessage = itemView.findViewById(R.id.tvLastMessage);
+
+            // When a contact is clicked by the user we want to move to the chat with this contact.
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Contact clickedContact = contacts.get(position);
+                    // This is the contact that was clicked. You can start ChatActivity here.
+                    Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                    intent.putExtra("chatId", clickedContact.getId());
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
     }
 
@@ -40,6 +54,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.contact_item, parent, false);
+
         return new ContactViewHolder(itemView);
     }
     // onBindViewHolder will connect the information we recive into the new view we created in the
