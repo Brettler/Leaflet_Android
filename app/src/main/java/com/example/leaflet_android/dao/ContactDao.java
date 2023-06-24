@@ -17,10 +17,10 @@ public interface ContactDao {
     List<Contact> index();
 
     @Query("SELECT * FROM contact WHERE localID = :localID")
-
     Contact get(int localID);
+
     // receive list of contacts;
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Contact... contacts);
 
     @Delete

@@ -43,10 +43,7 @@ public class ContactsViewModel extends ViewModel {
         return errorLiveData;
     }
 
-//    public void addTestContact() {
-//        Log.d(TAG, "Adding test contact");
-//        mRepository.addTestContact();
-//    }
+
 }
 //    public void delete(Contact post) {
 //        mRepository.delete(contact);

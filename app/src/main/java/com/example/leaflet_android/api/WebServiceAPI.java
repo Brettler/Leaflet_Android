@@ -1,6 +1,8 @@
 package com.example.leaflet_android.api;
 
 import com.example.leaflet_android.chat.ContactUsername;
+import com.example.leaflet_android.chat.ContentMessageBody;
+import com.example.leaflet_android.chat.SendMessageObject;
 import com.example.leaflet_android.entities.ChatMessage;
 import com.example.leaflet_android.entities.Contact;
 import com.example.leaflet_android.login.UserInfo;
@@ -40,9 +42,13 @@ public interface WebServiceAPI {
     Call<List<Contact>> getContacts(@Header("Authorization") String token);
 
     @DELETE("/api/Chats/{id}")
-    Call<Void> deleteContact(@Path("id") int id);
+    Call<Void> deleteContactChat(@Header("Authorization") String token, @Path("id") String id);
 
     // Fetch messages for a contact
     @GET("/api/Chats/{id}/Messages")
     Call<List<ChatMessage>> getMessages(@Header("Authorization") String token, @Path("id") String contactId);
+
+    // Send message to a contact
+    @POST("/api/Chats/{id}/Messages")
+    Call<SendMessageObject> sendMessageRequest(@Header("Authorization") String token, @Path("id") String contactId, @Body ContentMessageBody messageBody);
 }

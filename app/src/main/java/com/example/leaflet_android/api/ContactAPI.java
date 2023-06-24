@@ -1,14 +1,11 @@
 package com.example.leaflet_android.api;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.leaflet_android.LeafletApp;
-import com.example.leaflet_android.R;
 import com.example.leaflet_android.chat.ContactUsername;
 import com.example.leaflet_android.dao.ContactDao;
 import com.example.leaflet_android.entities.Contact;
@@ -25,7 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ContactAPI {
     private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
-
     private MutableLiveData<List<Contact>> contactListData;
     private ContactDao dao;
     private Retrofit retrofit;
@@ -46,13 +42,11 @@ public class ContactAPI {
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
-
     public ContactAPI(MutableLiveData<List<Contact>> contactListData, ContactDao dao) {
         this.contactListData = contactListData;
         this.dao = dao;
         refreshRetrofitInstance();
     }
-
 
     // Retrieve all the contacts from the server
     public void requestAllContacts(String token, MutableLiveData<List<Contact>> contactsLiveData) {
@@ -81,7 +75,6 @@ public class ContactAPI {
             }
         });
     }
-
 
     // Add contact to the server
     public void requestAddContact(String friendUsername, String token) {

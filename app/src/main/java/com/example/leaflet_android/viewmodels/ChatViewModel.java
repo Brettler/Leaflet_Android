@@ -6,23 +6,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.leaflet_android.AppDB;
-import com.example.leaflet_android.LeafletApp;
-import com.example.leaflet_android.api.ChatAPI;
-import com.example.leaflet_android.dao.ChatMessageDao;
 import com.example.leaflet_android.entities.ChatMessage;
-import com.example.leaflet_android.repositories.ContactsRepository;
 import com.example.leaflet_android.repositories.MessagesRepository;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ChatViewModel extends ViewModel {
 
     private static final String TAG = "ChatViewModel";
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
     private MessagesRepository chatRepo;
     private LiveData<List<ChatMessage>> messages;
@@ -43,21 +35,31 @@ public class ChatViewModel extends ViewModel {
     }
 
     public void loadMessages(String chatId) {
-        chatRepo.loadMessages(chatId);
+        chatRepo.loadMessages(chatId, isLoading);
     }
 
     // Need to implement them with the API.
-//
-//    public void addMessage(final String username, String token) {
-//        Log.d(TAG, "Adding message: " + username);
-//        mRepository.addContact(username, token);
-//    }
+
+    public void sendMessage (String chatId, String message) {
+        Log.d(TAG, "Adding message: " + message);
+        chatRepo.sendMessage(chatId ,message);
+    }
+
+        public void deleteContactChat(String chatId, String contactLocalID) {
+            chatRepo.deleteContactChat(chatId, contactLocalID);
+    }
+
 
     public LiveData<String> getErrorLiveData() {
         LiveData<String> errorLiveData = chatRepo.getErrorLiveData();
         Log.d(TAG, "Getting error LiveData: " + errorLiveData.getValue());
         return errorLiveData;
     }
+
+    public LiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
 
 }
 

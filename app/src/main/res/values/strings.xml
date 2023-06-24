@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Leaflet_Android</string>
+    <string name="app_name">Leaflet</string>
     <string name="BaseUrl">http://192.168.0.106:4656/api/</string>
     <string name="title_activity_settings">SettingsActivity</string>
 

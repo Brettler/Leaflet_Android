@@ -3,7 +3,6 @@ package com.example.leaflet_android;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.leaflet_android.databinding.ActivityMainBinding;
@@ -32,7 +32,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        AppSettings appSettings = new AppSettings(this);
+        String theme = appSettings.getTheme();
+
+        if ("Light".equalsIgnoreCase(theme)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if ("Dark".equalsIgnoreCase(theme)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
         setTitle("Welcome To Leaflet");
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedLocal", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        if (isLoggedIn) {
+            Intent i = new Intent(MainActivity.this, ContactsActivity.class);
+            startActivity(i);
+            finish();
+            return;
+        }
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         userInfoViewModel = new ViewModelProvider(this).get(UserInfoViewModel.class);
@@ -42,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
             if(token != null) {
                 if(!token.equals("error")) {
                     // Save the token and navigate to the next Activity
-                    SharedPreferences sharedPreferences = getSharedPreferences("sharedLocal", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", token);
                     editor.apply();
@@ -83,9 +98,19 @@ public class MainActivity extends AppCompatActivity {
                 // Store user info in the local database
                 userInfoViewModel.storeUserInfo(userInfo);
 
+                // Set isLoggedIn to true only after successfully fetching the user info
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isLoggedIn", true);
+
+                editor.apply();
+
                 // Navigate to the next Activity
                 Intent i = new Intent(MainActivity.this, ContactsActivity.class);
                 startActivity(i);
+                finish(); // finish current activity
+
+
+
             } else {
                 Toast.makeText(MainActivity.this, "Failed to fetch user info", Toast.LENGTH_SHORT).show();
             }
@@ -98,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             UserLogin user = new UserLogin(username, password);
             loginViewModel.loginUser(user);  // this will initiate the login request
         });
+
 
         // If the user didn't register yet, we give him the option.
         binding.btnMoveToRegisterPage.setOnClickListener(v -> {

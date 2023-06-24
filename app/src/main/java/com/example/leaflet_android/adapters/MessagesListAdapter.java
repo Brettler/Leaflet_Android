@@ -1,15 +1,15 @@
 package com.example.leaflet_android.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.leaflet_android.R;
 import com.example.leaflet_android.entities.ChatMessage;
 
@@ -32,7 +32,7 @@ public class MessagesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         ChatMessage message = messages.get(position);
-        if (message.getSenderUsername().equals(currentUsername)) {
+        if (message.getSender().getUsername().equals(currentUsername)) {
             return VIEW_TYPE_USER_MESSAGE;
         } else {
             return VIEW_TYPE_CONTACT_MESSAGE;

@@ -1,5 +1,6 @@
 package com.example.leaflet_android.entities;
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,13 +12,14 @@ public class ChatMessage {
 
     private String id;
     private String created;
-    private String senderUsername;
+    @Embedded(prefix = "sender_")
+    private Sender sender;
     private String content;
 
-    public ChatMessage(String id, String created, String senderUsername, String content) {
+    public ChatMessage(String id, String created, Sender sender, String content) {
         this.id = id;
         this.created = created;
-        this.senderUsername = senderUsername;
+        this.sender = sender;
         this.content = content;
     }
 
@@ -38,8 +40,8 @@ public class ChatMessage {
         return created;
     }
 
-    public String getSenderUsername() {
-        return senderUsername;
+    public Sender getSender() {
+        return sender;
     }
 
     public String getContent() {
@@ -55,8 +57,8 @@ public class ChatMessage {
         this.created = created;
     }
 
-    public void setSenderUsername(String senderUsername) {
-        this.senderUsername = senderUsername;
+    public void setSender(Sender sender) {
+        this.sender = sender;
     }
 
     public void setContent(String content) {

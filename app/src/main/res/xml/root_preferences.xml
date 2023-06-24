@@ -1,5 +1,6 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <PreferenceCategory app:title="@string/Network_header">
 
         <EditTextPreference
@@ -16,7 +17,7 @@
             app:title="Choose theme"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
-            app:defaultValue="light"
+            app:defaultValue="Light"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
@@ -38,4 +39,9 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Account">
+        <Preference
+            app:key="logout"
+            app:title="Logout"/>
+    </PreferenceCategory>
 </PreferenceScreen>

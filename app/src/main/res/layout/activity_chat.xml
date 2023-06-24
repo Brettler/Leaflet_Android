@@ -16,8 +16,9 @@
         android:background="@drawable/background_content_top"
         app:layout_constraintBottom_toTopOf="@id/lSend"
         app:layout_constraintTop_toTopOf="parent"
-    />
-    
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
+
     <View
         android:id="@+id/bgChatHeader"
         android:layout_width="match_parent"
@@ -26,12 +27,10 @@
         app:layout_constraintBottom_toTopOf="@id/viewSupport"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/chatHeaderBack"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
@@ -44,8 +43,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/chatHeaderDelete"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
@@ -74,7 +73,7 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         android:padding="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:stackFromEnd="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/vChatBackground"
@@ -89,7 +88,7 @@
         app:layout_constraintEnd_toEndOf="@id/vChatBackground"
         app:layout_constraintStart_toStartOf="@id/vChatBackground"
         app:layout_constraintTop_toTopOf="@id/vChatBackground"
-        />
+        app:layout_constraintVertical_bias="0.498" />
 
     <TextView
         android:id="@+id/contactHeaderName"
@@ -100,7 +99,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/chatHeaderBack"
@@ -108,8 +107,6 @@
         app:layout_constraintStart_toEndOf="@id/chatHeaderBack"
         app:layout_constraintTop_toTopOf="@id/chatHeaderBack"
         />
-
-
 
     <FrameLayout
         android:id="@+id/lSend"
@@ -123,6 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         >
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnSendMessage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
@@ -130,19 +128,18 @@
             android:padding="8dp"
             android:src="@drawable/ic_send"
             app:tint="@color/colorAccent">
-
         </androidx.appcompat.widget.AppCompatImageView>
-
     </FrameLayout>
 
     <EditText
         android:id="@+id/inputMessage"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:minHeight="48dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/background_chat_input"
         android:hint="@string/type_a_message"
@@ -151,11 +148,10 @@
         android:inputType="text"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textColorHint="@android:color/secondary_text_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/lSend"
         app:layout_constraintStart_toStartOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
