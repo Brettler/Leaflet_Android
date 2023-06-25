@@ -38,7 +38,13 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
                     Contact clickedContact = contacts.get(position);
                     // This is the contact that was clicked. You can start ChatActivity here.
                     Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                    // Adding the chatID of the chat with the contact the user chose so we can use
+                    // the api to retrive the messages with this contact.
                     intent.putExtra("chatId", clickedContact.getId());
+                    intent.putExtra("localID", clickedContact.getLocalID());
+                    // Also add the contact displayname so we can present it in the chat for the user.
+//                    intent.putExtra("contactDisplayname", clickedContact.getUser().getDisplayName());
+//                    intent.putExtra("contactProfilePic", clickedContact.getUser().getProfilePic());
                     v.getContext().startActivity(intent);
                 }
             });

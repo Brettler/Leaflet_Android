@@ -2,9 +2,10 @@ package com.example.leaflet_android.entities;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {@Index(value = "id", unique = true)})
 public class Contact {
     @PrimaryKey(autoGenerate = true)
     private int localID;

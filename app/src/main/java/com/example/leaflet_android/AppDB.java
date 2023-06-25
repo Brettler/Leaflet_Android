@@ -13,7 +13,7 @@ import com.example.leaflet_android.entities.Contact;
 import com.example.leaflet_android.login.UserInfo;
 import com.example.leaflet_android.dao.UserInfoDao;
 
-@Database(entities = {Contact.class, UserInfo.class, ChatMessage.class}, version = 13)
+@Database(entities = {Contact.class, UserInfo.class, ChatMessage.class}, version = 17)
 public abstract class AppDB extends RoomDatabase {
     public abstract ContactDao contactDao();
     public abstract UserInfoDao userInfoDao();

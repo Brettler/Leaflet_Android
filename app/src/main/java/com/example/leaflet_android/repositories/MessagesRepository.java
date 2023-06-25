@@ -15,24 +15,27 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.leaflet_android.AppDB;
-import com.example.leaflet_android.LeafletApp;
 import com.example.leaflet_android.api.ChatAPI;
+import com.example.leaflet_android.chat.ContentMessageBody;
 import com.example.leaflet_android.dao.ChatMessageDao;
+import com.example.leaflet_android.dao.ContactDao;
 import com.example.leaflet_android.entities.ChatMessage;
 
 import java.util.List;
 
 public class MessagesRepository {
-    private ChatMessageDao dao;
+    private ChatMessageDao chatDao;
+    private ContactDao contactDao;
     private MessagesRepository.MessageListData messageListData;
     private ChatAPI chatAPI;
 
     public MessagesRepository(){
         AppDB db = AppDB.getDatabase(context);
-        dao = db.chatMessageDao();
+        chatDao = db.chatMessageDao();
+        contactDao = db.contactDao();
 
         messageListData = new MessagesRepository.MessageListData();
-        chatAPI = new ChatAPI(messageListData, dao);
+        chatAPI = new ChatAPI(messageListData, chatDao, contactDao);
 
         // If we
         LocalBroadcastManager.getInstance(context).registerReceiver(new BroadcastReceiver() {
@@ -47,11 +50,13 @@ public class MessagesRepository {
         chatAPI.refreshRetrofitInstance();
     }
 
-    public void loadMessages(String chatId) {
+    public void loadMessages(String chatId, MutableLiveData<Boolean> isLoading) {
         new Thread(() -> {
             SharedPreferences sharedPreferences = context.getSharedPreferences("sharedLocal", MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
+            isLoading.postValue(true);
             chatAPI.getMessages(messageListData, token, chatId);
+            isLoading.postValue(false);
         }).start();
     }
 
@@ -64,7 +69,7 @@ public class MessagesRepository {
         protected void onActive() {
             super.onActive();
             new Thread(() -> {
-                List<ChatMessage> messagesFromDB = dao.index();
+                List<ChatMessage> messagesFromDB = chatDao.index();
                 Log.d("ContactListData", "Loaded contacts from database: " + messagesFromDB);
                 postValue(messagesFromDB);
             }).start();
@@ -77,9 +82,28 @@ public class MessagesRepository {
         return messageListData;
     }
 
-//    public void addContact (final String username, String token) {
-//        chatAPI.requestAddContact(username, token);
-//    }
+    public void sendMessage (String chatId, String message) {
+        new Thread(() -> {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("sharedLocal", MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
+            ContentMessageBody messageBody = new ContentMessageBody(message);
+            chatAPI.sendMessageRequest(token, chatId, messageBody);
+        }).start();
+    }
+
+    public void deleteContactChat (String chatId, String contactLocalID) {
+        new Thread(() -> {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("sharedLocal", MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
+            try {
+                int localID = Integer.parseInt(contactLocalID);
+                chatAPI.deleteContactChat(token, chatId, localID);
+            } catch(NumberFormatException e) {
+                // Handle exception, perhaps log the error or show a message to the user
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     public LiveData<String> getErrorLiveData() {
         return chatAPI.getErrorLiveData();

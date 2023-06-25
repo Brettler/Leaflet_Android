@@ -9,7 +9,6 @@ import com.example.leaflet_android.settings.SettingsPreference;
 
 public class SettingsActivity extends AppCompatActivity {
     private boolean isChangingTheme = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +24,4 @@ public class SettingsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
-
-
-
-
 }

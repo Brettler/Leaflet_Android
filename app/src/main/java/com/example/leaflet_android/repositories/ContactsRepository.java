@@ -2,7 +2,6 @@ package com.example.leaflet_android.repositories;
 
 
 import static android.content.Context.MODE_PRIVATE;
-
 import static com.example.leaflet_android.LeafletApp.context;
 
 import android.content.BroadcastReceiver;
@@ -17,7 +16,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.leaflet_android.AppDB;
-import com.example.leaflet_android.LeafletApp;
 import com.example.leaflet_android.api.ContactAPI;
 import com.example.leaflet_android.dao.ContactDao;
 import com.example.leaflet_android.entities.Contact;
@@ -87,17 +85,4 @@ public class ContactsRepository {
     public LiveData<String> getErrorLiveData() {
         return contactAPI.getErrorLiveData();
     }
-
-
-//    public void addTestContact() {
-//        Contact testContact = new Contact("456546", "Test User", R.drawable.default_user_pic, "Hello, this is a test message");
-//
-//        new Thread(() -> {
-//            dao.insert(testContact);
-//            Log.d("addTestContact", "Inserted test contact into database: " + testContact);
-//            // Request an update of the contact list
-//            contactListData.onActive();
-//        }).start();
-//    }
-
 }

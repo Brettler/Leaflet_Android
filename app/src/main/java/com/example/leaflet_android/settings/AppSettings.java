@@ -3,18 +3,18 @@ package com.example.leaflet_android.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.leaflet_android.LeafletApp;
 import com.example.leaflet_android.R;
 
 public class AppSettings {
     private static final String PREFS_NAME = "app_preferences";
     private static final String SERVER_IP_ADDRESS = "server_ip_address";
-    private static final String DEFAULT_IP_ADDRESS = LeafletApp.context.getString(R.string.BaseUrl);
-    private static final String THEME = "theme";
-    private static final String DEFAULT_THEME = "Light";
+    private String DEFAULT_IP_ADDRESS;
+    private String THEME = "Theme";
+    private String DEFAULT_THEME = "Light";
     private SharedPreferences sharedPreferences;
 
     public AppSettings(Context context) {
+        this.DEFAULT_IP_ADDRESS = context.getString(R.string.BaseUrl);
         this.sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
@@ -46,6 +46,11 @@ public class AppSettings {
 //        editor.putString(SERVER_IP_ADDRESS, serverIpAddress);
 //        editor.apply();
 //    }
+
+    public String getDefaultTheme() {
+        return DEFAULT_THEME;
+    }
+
 
 
     public String getTheme() {
