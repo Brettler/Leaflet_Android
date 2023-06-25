@@ -91,13 +91,12 @@ public class MessagesRepository {
         }).start();
     }
 
-    public void deleteContactChat (String chatId, String contactLocalID) {
+    public void deleteContactChat (String chatId, int contactLocalID) {
         new Thread(() -> {
             SharedPreferences sharedPreferences = context.getSharedPreferences("sharedLocal", MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
             try {
-                int localID = Integer.parseInt(contactLocalID);
-                chatAPI.deleteContactChat(token, chatId, localID);
+                chatAPI.deleteContactChat(token, chatId, contactLocalID);
             } catch(NumberFormatException e) {
                 // Handle exception, perhaps log the error or show a message to the user
                 e.printStackTrace();

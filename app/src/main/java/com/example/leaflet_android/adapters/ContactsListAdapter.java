@@ -12,11 +12,16 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.leaflet_android.ChatActivity;
+import com.example.leaflet_android.activities.ChatActivity;
 import com.example.leaflet_android.R;
 import com.example.leaflet_android.entities.Contact;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ContactViewHolder> {
 
@@ -42,9 +47,11 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
                     // the api to retrive the messages with this contact.
                     intent.putExtra("chatId", clickedContact.getId());
                     intent.putExtra("localID", clickedContact.getLocalID());
-                    // Also add the contact displayname so we can present it in the chat for the user.
-//                    intent.putExtra("contactDisplayname", clickedContact.getUser().getDisplayName());
-//                    intent.putExtra("contactProfilePic", clickedContact.getUser().getProfilePic());
+                    // Also add the contact DisplayName so we can present it in the chat for the user.
+                    String contactDisplayName = clickedContact.getUser().getDisplayName();
+                    String contactProfilePic = clickedContact.getUser().getProfilePic();
+                    intent.putExtra("contactDisplayName", contactDisplayName);
+                    intent.putExtra("contactProfilePic", contactProfilePic);
                     v.getContext().startActivity(intent);
                 }
             });
@@ -71,7 +78,35 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         if (contacts != null) {
             final Contact current = contacts.get(position);
             if (current.getLastMessage() != null) {  // Added null check here
-                holder.tvLastMessage.setText(current.getLastMessage().getContent());
+                String lastMessage = current.getLastMessage().getContent();
+                if (lastMessage.length() > 15) {  // Check if the message is longer than 15 characters
+                    lastMessage = lastMessage.substring(0, 15) + "...";  // If it is, take the first 15 characters and add '...' at the end
+                }
+                String lastMessageTime = current.getLastMessage().getCreated();
+                // This is your original date string from the server
+                String originalDateFormat = lastMessageTime;
+
+                // Create a DateFormat for parsing the date
+                SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                originalFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Because the original date string is in UTC
+
+                // Parse the original date string into a Date object
+                Date date = null;
+                try {
+                    date = originalFormat.parse(originalDateFormat);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Create a new DateFormat for formatting the date into the new format
+                SimpleDateFormat newFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+                newFormat.setTimeZone(TimeZone.getDefault()); // You might want to adjust this depending on your requirements
+
+                // Format the Date object into the new format
+                String newDateString = newFormat.format(date);
+
+                String combineTogether = lastMessage + "    [Time: " +newDateString + "]";
+                holder.tvLastMessage.setText(combineTogether);
             } else {
                 holder.tvLastMessage.setText(""); // Or any other placeholder text
             }            holder.tvDisplayName.setText(current.getUser().getDisplayName());

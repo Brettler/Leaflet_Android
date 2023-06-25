@@ -3,6 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="colorPrimary">@android:color/holo_green_dark</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">@android:color/holo_orange_dark</color>
+    <color name="colorAccent">@android:color/holo_orange_light</color>
     <color name="textChangeColor">@android:color/white</color>
 </resources>

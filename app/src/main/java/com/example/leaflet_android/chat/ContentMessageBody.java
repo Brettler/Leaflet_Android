@@ -1,17 +1,17 @@
 package com.example.leaflet_android.chat;
 
 public class ContentMessageBody {
-    private String message;
+    private String msg;
 
-    public ContentMessageBody(String message) {
-        this.message = message;
+    public ContentMessageBody(String msg) {
+        this.msg = msg;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

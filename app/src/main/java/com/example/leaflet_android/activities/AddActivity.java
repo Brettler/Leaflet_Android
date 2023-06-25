@@ -1,4 +1,4 @@
-package com.example.leaflet_android;
+package com.example.leaflet_android.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

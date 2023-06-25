@@ -1,4 +1,4 @@
-package com.example.leaflet_android;
+package com.example.leaflet_android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.leaflet_android.R;
 import com.example.leaflet_android.adapters.ContactsListAdapter;
 import com.example.leaflet_android.databinding.ActivityContactsBinding;
 import com.example.leaflet_android.viewmodels.ContactsViewModel;
@@ -26,7 +27,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         binding = ActivityContactsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        setTitle("Contacts List");
         viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
 
         RecyclerView lstContacts = binding.lstContacts;

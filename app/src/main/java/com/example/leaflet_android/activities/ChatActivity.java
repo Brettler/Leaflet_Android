@@ -1,9 +1,16 @@
-package com.example.leaflet_android;
+package com.example.leaflet_android.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -12,13 +19,19 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.leaflet_android.LeafletApp;
+import com.example.leaflet_android.R;
 import com.example.leaflet_android.adapters.MessagesListAdapter;
 import com.example.leaflet_android.databinding.ActivityChatBinding;
 import com.example.leaflet_android.viewmodels.ChatViewModel;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 public class ChatActivity extends AppCompatActivity {
     private ActivityChatBinding binding;
     private ChatViewModel chatViewModel;
+    private BroadcastReceiver messageReceiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,20 +40,32 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-
-        RecyclerView lstMessages = binding.chatRecycler;
-        final MessagesListAdapter adapter = new MessagesListAdapter(this);
-        lstMessages.setAdapter(adapter);
-        lstMessages.setLayoutManager(new LinearLayoutManager(this));
 
         // Each time the viewModel changes we will refresh the contact list.
 
-        String chatId = getIntent().getStringExtra("chatId");
-        String contactLocalID = getIntent().getStringExtra("localID");
 
-//        String contactDisplayname = getIntent().getStringExtra("contactDisplayname");
-//        String contactProfilePic = getIntent().getStringExtra("contactProfilePic");
+        Intent intent = getIntent(); // retrieve the Intent that started this Activity
+        // retrieve the extras from the Intent
+        String chatId = intent.getStringExtra("chatId");
+        int contactLocalID = intent.getIntExtra("localID", 0);
+        String contactDisplayName = getIntent().getStringExtra("contactDisplayName");
+        String contactProfilePic = getIntent().getStringExtra("contactProfilePic");
+
+        // log the retrieved values for debugging purposes
+        Log.d("ChatActivityData", "chatId: " + chatId);
+        Log.d("ChatActivityData", "localID: " + contactLocalID);
+        Log.d("ChatActivityData", "contactDisplayname: " + contactDisplayName);
+
+
+        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+
+        RecyclerView lstMessages = binding.chatRecycler;
+        final MessagesListAdapter adapter = new MessagesListAdapter(this, contactProfilePic);
+        lstMessages.setAdapter(adapter);
+        lstMessages.setLayoutManager(new LinearLayoutManager(this));
+
+        // Capture the layout's TextView and set the string as its text
+        binding.contactHeaderName.setText(contactDisplayName);
 
         ProgressBar loadBarChat = findViewById(R.id.loadBarChat);
         chatViewModel.getIsLoading().observe(this, isLoading -> {
@@ -53,13 +78,13 @@ public class ChatActivity extends AppCompatActivity {
 
         chatViewModel.loadMessages(chatId);
 
-//        // Capture the layout's TextView and set the string as its text
-//        binding.contactHeaderName.setText(contactDisplayname);
-//        // Capture the layout's TextView and set the string as its text
-//        Glide.with(this)
-//                .load(contactProfilePic)
-//                .into((RoundedImageView) findViewById(R.id.imgProfileContactMessage));
-
+        messageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // A notification message has been received. Here you can refresh your data.
+                chatViewModel.loadMessages(chatId);
+            }
+        };
 
         // The user press on the send button and we wille execute this operation.
         binding.btnSendMessage.setOnClickListener(view -> {
@@ -84,6 +109,8 @@ public class ChatActivity extends AppCompatActivity {
         chatViewModel.fetchChat().observe(this, messages -> {
             Log.d("ContactsActivity", "Updating contacts in adapter: " + messages);
             adapter.setMessages(messages);
+            lstMessages.scrollToPosition(messages.size() - 1);
+
         });
 
         // Observe error live data. If something goes wrong we pop an error to the user.

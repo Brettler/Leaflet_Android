@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@android:color/background_dark"
-    tools:context=".ChatActivity">
+    tools:context=".activities.ChatActivity">
 
     <View
         android:id="@+id/vChatBackground"
@@ -149,7 +149,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:textColor="@android:color/black"
-        android:textColorHint="@android:color/secondary_text_light"
+        android:textColorHint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/lSend"
         app:layout_constraintStart_toStartOf="parent"/>
