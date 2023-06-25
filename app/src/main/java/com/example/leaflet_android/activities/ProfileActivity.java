@@ -1,4 +1,4 @@
-package com.example.leaflet_android;
+package com.example.leaflet_android.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -51,9 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
                     displayNameTextView.setText("Displayname: " + userInfo.getDisplayName());
                     userNameTextView.setText("Username: " + userInfo.getUsername());
 
-                    // Assuming you have an URI or URL of the image
-                    // Glide is an image loading library for Android
-                    // that you'll need to add to your build.gradle dependencies
+                    // Using image loading library for Android, to present the user his profile picutre.
                     Glide.with(this)
                             .load(userInfo.getProfilePic())
                             .into(profileImageView);

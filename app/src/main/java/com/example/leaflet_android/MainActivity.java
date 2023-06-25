@@ -1,8 +1,13 @@
 package com.example.leaflet_android;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -10,11 +15,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.leaflet_android.activities.ContactsActivity;
+import com.example.leaflet_android.activities.RegisterActivity;
 import com.example.leaflet_android.databinding.ActivityMainBinding;
 import com.example.leaflet_android.login.UserLogin;
 import com.example.leaflet_android.settings.AppSettings;
@@ -23,9 +33,39 @@ import com.example.leaflet_android.viewmodels.UserInfoViewModel;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
+    // Firebase
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // FCM SDK (and your app) can post notifications.
+                    Toast.makeText(MainActivity.this, "You will receive notifications.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Inform user that your app will not show notifications.
+                    Toast.makeText(MainActivity.this, "Without notification permission, you won't receive updates.", Toast.LENGTH_SHORT).show();
+                }
+            });
+    private void askNotificationPermission() {
+        // Check if shouldShowRequestPermissionRationale() is true
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY)) {
+            // Show an explanation to the user
+            new AlertDialog.Builder(this)
+                    .setTitle("Notification Permission Required")
+                    .setMessage("This app needs the Notification permission to send you updates. Would you like to grant it?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // request the permission
+                        requestPermissionLauncher.launch(Manifest.permission.ACCESS_NOTIFICATION_POLICY);
+                    })
+                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                    .create().show();
+        } else {
+            // No explanation needed; request the permission
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_NOTIFICATION_POLICY);
+        }
+    }
     private ActivityMainBinding binding;
     private LoginViewModel loginViewModel;
     private UserInfoViewModel userInfoViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         setTitle("Welcome To Leaflet");
+
         SharedPreferences sharedPreferences = getSharedPreferences("sharedLocal", MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
         if (isLoggedIn) {
@@ -55,17 +96,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Observers
         loginViewModel.getLoginToken().observe(this, token -> {
-            if(token != null) {
-                if(!token.equals("error")) {
-                    // Save the token and navigate to the next Activity
+            if (token != null) {
+                if (!token.equals("error")) {
+                    // Save the token and Try to fetch also tokenFCM from Firebase.
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", token);
                     editor.apply();
 
 
+                    // Retrieve the current registration token.
                     FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
                         if (!task.isSuccessful()) {
-                            // Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            Log.w("FirebaseMainActivity", "Fetching FCM registration token failed", task.getException());
                             return;
                         }
 
@@ -74,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // Fetch user info now that we have a valid token
                         String username = binding.tvLoginUsername.getEditText().getText().toString();
-                        if(!username.isEmpty()) {
+                        if (!username.isEmpty()) {
                             // Make the request from the server to get the information about the user
                             // that just logged in.
                             userInfoViewModel.fetchUserInfo(token, firebaseToken, username);
@@ -103,12 +145,12 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("isLoggedIn", true);
 
                 editor.apply();
-
+                // Ask for notification permission after successful login
+                askNotificationPermission();
                 // Navigate to the next Activity
                 Intent i = new Intent(MainActivity.this, ContactsActivity.class);
                 startActivity(i);
                 finish(); // finish current activity
-
 
 
             } else {
@@ -116,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        binding.loginButton.setOnClickListener(v->{
+        binding.loginButton.setOnClickListener(v -> {
             String username = binding.tvLoginUsername.getEditText().getText().toString();
             String password = binding.tvLoginPassword.getEditText().getText().toString();
             // initiate the login request
@@ -139,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     private void showServerIpDialog() {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.login_set_server_ip, null);
@@ -163,6 +206,5 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.show();
     }
-
 
 }

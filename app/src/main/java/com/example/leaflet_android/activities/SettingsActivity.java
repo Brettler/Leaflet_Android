@@ -1,10 +1,11 @@
-package com.example.leaflet_android;
+package com.example.leaflet_android.activities;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.leaflet_android.R;
 import com.example.leaflet_android.settings.SettingsPreference;
 
 public class SettingsActivity extends AppCompatActivity {

@@ -14,6 +14,7 @@ import com.example.leaflet_android.entities.ChatMessage;
 import com.example.leaflet_android.entities.Contact;
 import com.example.leaflet_android.settings.AppSettings;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -62,9 +63,6 @@ public class ChatAPI {
     }
 
 
-
-
-
     public void getMessages(MutableLiveData<List<ChatMessage>> messagesLiveData, String token, String contactId) {
         Call<List<ChatMessage>> call = webServiceAPI.getMessages("Bearer " + token, contactId);
         call.enqueue(new Callback<List<ChatMessage>>() {
@@ -72,19 +70,21 @@ public class ChatAPI {
             public void onResponse(Call<List<ChatMessage>> call, Response<List<ChatMessage>> response) {
                 if (response.isSuccessful()) {
                     List<ChatMessage> messages = response.body();
-                    Log.d("ContactAPI", "requestAllContacts response: " + messages);
+                    Log.d("ChatAPI", "requestAllContacts response: " + messages);
+                    // Reverse the order of messages
+                    Collections.reverse(messages);
                     messagesLiveData.postValue(messages);
                     new Thread(() -> {
                         chatDao.insertAll(messages);
                     }).start();
                 } else {
-                    Log.e("requestAllContacts", "Unsuccessful response: " + response.code()); // Log the error code
+                    Log.e("ChatAPIGetMessages", "Unsuccessful response: " + response.code()); // Log the error code
                 }
             }
 
             @Override
             public void onFailure(Call<List<ChatMessage>> call, Throwable t) {
-                Log.e("requestAllContacts", "Request failed: " + t.getMessage()); // Log the failure reason
+                Log.e("ChatAPIGetMessages", "Request failed: " + t.getMessage()); // Log the failure reason
             }
         });
     }
@@ -99,18 +99,24 @@ public class ChatAPI {
                 if(response.isSuccessful() && response.body() != null) {
                     // Save the contact to local DB
                     SendMessageObject myInfo = response.body();
-                    Log.d("SendMessageObject", "Adding contact response: " + myInfo);
+                    Log.d("ChatAPIsendMessageRequest", "Sending message response: " + myInfo.getContent());
 
                 } else {
-                    Log.e("SendMessageObject", "Unsuccessful response: " + response.code());
+                    Log.e("ChatAPIsendMessageRequest", "Unsuccessful response: " + response.code());
                     if (response.code() == 404) {
                         errorLiveData.postValue("Message didn't sent!");
+                        Log.e("ChatAPIsendMessageRequest", "(response.code() == 404"); // Log the failure reason
+
 
                     } else if(response.code() == 401) {
                         errorLiveData.postValue("You are using invalid token. Try to log in again.");
+                        Log.e("ChatAPIsendMessageRequest", "(response.code() == 401"); // Log the failure reason
+
                     }
                     else if(response.code() == 403) {
                         errorLiveData.postValue("You try to send message but without your private token. please check your phone for any security settings.");
+                        Log.e("ChatAPIsendMessageRequest", "(response.code() == 403"); // Log the failure reason
+
                     }
                 }
             }
@@ -118,7 +124,7 @@ public class ChatAPI {
             public void onFailure(Call<SendMessageObject> call, Throwable t) {
                 errorLiveData.postValue("Network Error. Please provide better wifi connection.");
                 // Handle failure
-                Log.e("requestAddContact", "Request failed: " + t.getMessage()); // Log the failure reason
+                Log.e("ChatAPIsendMessageRequest", "Request failed: " + t.getMessage()); // Log the failure reason
 
             }
         });

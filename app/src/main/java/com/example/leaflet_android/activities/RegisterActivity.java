@@ -1,4 +1,4 @@
-package com.example.leaflet_android;
+package com.example.leaflet_android.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.leaflet_android.MainActivity;
 import com.example.leaflet_android.api.RegisterAPI;
 import com.example.leaflet_android.databinding.ActivityRegisterBinding;
 import com.example.leaflet_android.register.RegisterPasswordHandler;

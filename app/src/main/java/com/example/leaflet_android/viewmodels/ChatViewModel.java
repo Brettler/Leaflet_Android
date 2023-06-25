@@ -45,7 +45,7 @@ public class ChatViewModel extends ViewModel {
         chatRepo.sendMessage(chatId ,message);
     }
 
-        public void deleteContactChat(String chatId, String contactLocalID) {
+        public void deleteContactChat(String chatId, int contactLocalID) {
             chatRepo.deleteContactChat(chatId, contactLocalID);
     }
 

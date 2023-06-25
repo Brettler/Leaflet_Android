@@ -17,7 +17,8 @@
         android:paddingBottom="8dp"
         app:layout_constraintWidth_max="wrap"
         android:textColor="@android:color/black"
-        android:textSize="8sp"
+        android:textSize="14sp"
+        android:minHeight="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.8"/>
