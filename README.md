@@ -1,10 +1,10 @@
 # Advanced Programming 2 - Task 3 - Android
-Eden Berman & Liad Brettler
+Liad Brettler & Eden Berman
 
 ## Description
-This project encompassed three primary components aimed at implementing a server-client application. Firstly, we made modifications to our code in order to establish communication with the server provided by the course. This involved adapting the code to interact with the Restful API the server performs, receiving JSON objects and tokens as input values, as well as transferring the logic to the server instead of keeping it locally. Secondly, once our code successfully interacted with the provided server, we proceeded to develop our own server using NodeJS, wherein we implemented the API and functionality of the original server. The server was constructed following the MVC architecture and utilized a MongoDB database to store data. Lastly, we integrated real-time communication by employing WebSockets, enabling active users to instantly exchange messages.
+In this project, we developed an Android application that retains the webpage functionality. The application consists of multiple components, including a server with a RESTful API, a MongoDB database for data storage, and a client-side interface that enhances the user experience. The primary objective was to create an Android application to facilitate real-time communication among active users. The core feature of the application is a chat system, which encompasses three main activities: a Login page, a Register page, and a Chats page.
 
-The application itself comprises a chat webpage featuring three distinct sections: a Login page, a Register page, and a Chats page. To design these pages, we utilized CSS and Bootstrap, while React was employed to implement the application's functionality.
+In the Android app, the Chats functionality is divided into two distinct activities: a contact list and a selected chat. This is a deviation from the Chats webpage. Additionally, the Android app utilizes a local SQLite database, implemented through Room, to store a local copy of relevant data such as chat messages and the contact list. The local database is continuously updated in the background through server synchronization, ensuring that the visual representation of the data remains up to date.
 
 ## Instructions
 This repository exclusively contains the client-side implementation, which is designed to work in conjunction with a server that implements the same API.
@@ -33,7 +33,6 @@ Once you are in the Chats page, you will see a split-screen interface. The left 
 To close the app, use the keyboard shortcut "Ctrl+C" and then type "Y" to confirm.
 
 ## Server
-
 The server in this implementation adheres to the MVC (Model-View-Controller) architecture, comprising controllers, models, services, and routes. It handles the following requests, maintaining the same input and output formats of the original server:
 * POST api/Users: Registers a new user by sending a POST request to this endpoint. The request should include a unique username, password, display name, and an image. If the registration is successful, the server responds with a status code of 200. Otherwise, an appropriate error message will be displayed to the client.
 * POST api/Tokens: Generates a token for a registered user based on the provided username and password during login. This token is necessary for subsequent server requests.
@@ -57,3 +56,18 @@ If any of the mandatory and restricted fields are not filled in properly, an app
     Between the user's details and the friend list is a search box that allows users to search for a specific friend within the list, in a case-insensitive manner. The list will only display friends whose display names contain the typed prefix, temporarily hiding the rest of the friends.
 
 To ensure consistent and cohesive design throughout the app, each webpage has a corresponding CSS file that applies its unique design elements.
+
+## Client - Android
+* Login - The main activity of the application. It features a form with input boxes for the user's username and password. The page also includes buttons that allow users to access their personal chat page or the registration page. To facilitate communication with the server, a button is located in the top right corner of the page. This button allows users to input the address of a specific server they wish to connect with. By default, our server address is already populated, ensuring a smooth initial experience for users.
+
+* Register -This activity provides users with the ability to sign up for the app. It presents a form that includes mandatory fields such as username, password, password verification, and display name. Additionally, users have the option to upload a profile picture, although this step is not mandatory. Upon filling out the form accurately, users can proceed by clicking the Register button, which will redirect them to the login page. If users have already registered, they can simply click on the Login link, which will also lead them to the login page.
+
+* Contact - This activity serves as a contact list, where each contact represents a chat. Located in the bottom right corner of the page is a button that, upon clicking, displays a popup. This popup provides three distinct options, each leading the user to different activities: profile, settings, and add friend.
+
+* Profile - This activity provides users with the ability to view their personal details, including their profile picture, display name, and username.
+
+* Settings - This activity offers users the ability to modify various features within the app. Firstly, users can switch between light mode and dark mode themes, with the app initially set to light mode by default. Secondly, users can change the server address to which the app connects, similar to the Login activity. Another important feature of this activity is the option for users to logout from their personal chat system. By logging out, the local data stored on the device will be deleted, while the server data remains unaffected. Logging out also serves as the only means for users to be redirected back to the Login or Register activities. If users simply exit the app without logging out and later return, they will be automatically directed to their personal contacts activity.
+
+* Add Friend - This activity allows users to create a new chat by specifying the username of the friend they want to initiate the chat with.
+
+* Chat - For each contact in the contact list, an individual chat activity is created. This activity is dedicated to displaying the messages exchanged between the user and the selected friend. The top bar of the activity provides details of the friend the user is currently chatting with, such as their profile picture and display name. Additionally, the activity includes an icon designed specifically for deleting the currently displayed chat. This feature allows users to easily remove the chat from their conversation history if desired.
