@@ -1,12 +1,16 @@
 package com.example.leaflet_android.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +32,18 @@ public class ContactsActivity extends AppCompatActivity {
         binding = ActivityContactsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setTitle("Contacts List");
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)));
+        }
+
+
+        // Change the color of the status bar
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+
+
         viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
 
         RecyclerView lstContacts = binding.lstContacts;
